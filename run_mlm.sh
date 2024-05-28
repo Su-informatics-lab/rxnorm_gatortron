@@ -26,6 +26,7 @@ torchrun --nproc_per_node=4 --nnodes=1 \
   --load_best_model_at_end \
   --metric_for_best_model "eval_loss" \
   --greater_is_better False \
+  --max_seq_length 512 \
   --fp16 \
   --gradient_accumulation_steps 4 \
   --save_total_limit 5 \
