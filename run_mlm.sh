@@ -27,15 +27,15 @@ python -m torch.distributed.launch \
   --per_device_train_batch_size 16 \
   --per_device_eval_batch_size 16 \
   --num_train_epochs 100 \
-  --save_steps 10000 \
+  --save_steps 100 \
   --save_total_limit 5 \
   --do_train \
   --do_eval \
   --logging_dir ./logs \
-  --logging_steps 500 \
+  --logging_steps 100 \
   --mlm_probability 0.15 \
   --evaluation_strategy "steps" \
-  --eval_steps 1000 \
+  --eval_steps 100 \
   --load_best_model_at_end \
   --metric_for_best_model "eval_loss" \
   --greater_is_better False \
