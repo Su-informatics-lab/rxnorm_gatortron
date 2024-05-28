@@ -261,7 +261,8 @@ def main():
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
     # Initialize wandb
-    wandb.init(project="continual_pretraining_gatortron")
+    if training_args.local_rank == 0:
+        wandb.init(project="continual_pretraining_gatortron", reinit=False)
 
     # Sending telemetry. Tracking the example usage helps us better allocate resources to maintain them. The
     # information sent is the one passed as arguments along with your Python/PyTorch versions.
