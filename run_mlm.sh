@@ -29,5 +29,4 @@ torchrun --nproc_per_node=4 --nnodes=1 \
   --max_seq_length 512 \
   --fp16 \
   --gradient_accumulation_steps 4 \
-  --save_total_limit 5 \
-  --deepspeed "./ds_config.json"
+  --save_total_limit 5
