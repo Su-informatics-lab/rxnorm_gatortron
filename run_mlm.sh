@@ -30,4 +30,5 @@ torchrun --nproc_per_node=4 --nnodes=1 \
   --fp16 \
   --gradient_accumulation_steps 4 \
   --save_total_limit 5 \
-  --report_to wandb
+  --report_to wandb \
+  --find_unused_parameters False
