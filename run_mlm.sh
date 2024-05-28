@@ -3,21 +3,8 @@
 # set the environment variable for CUDA devices
 export CUDA_VISIBLE_DEVICES=4,5,6,7
 
-NNODES=1
-NODE_RANK=0
-GPUS_PER_NODE=4
-NPROC_PER_NODE=4
-# master address and port for communication (default values)
-MASTER_ADDR=localhost
-MASTER_PORT=12355
-
-# Run the training script with torch.distributed.launch
-python -m torch.distributed.launch \
-  --nproc_per_node=$NPROC_PER_NODE \
-  --nnodes=$NNODES \
-  --node_rank=$NODE_RANK \
-  --master_addr=$MASTER_ADDR \
-  --master_port=$MASTER_PORT \
+torchrun --nproc_per_node=4 --nnodes=1 \
+  --node_rank=0 --master_addr="localhost" --master_port=29500 \
   run_mlm.py \
   --model_name_or_path UFNLP/gatortron-base \
   --train_file rxnorm.txt \
@@ -41,6 +28,6 @@ python -m torch.distributed.launch \
   --greater_is_better False \
   --early_stopping_patience 20 \
   --fp16 \
-  --gradient_accumulation_steps 1 \
+  --gradient_accumulation_steps 4 \
   --save_total_limit 5 \
   --deepspeed "./ds_config.json"
