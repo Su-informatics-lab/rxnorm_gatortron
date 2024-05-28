@@ -3,7 +3,6 @@ import os
 import shutil
 from huggingface_hub import HfApi, Repository
 
-hf_username = 'haining'
 
 def upload_model_to_hf(hf_username, hf_repo_name, model_checkpoint_dir):
     # create a new repository on Hugging Face Hub
@@ -33,6 +32,8 @@ if __name__ == "__main__":
                         help="The name of the Hugging Face repository.")
     parser.add_argument('--ckpt_dir', type=str, required=True,
                         help="The directory of the model checkpoint.")
+    parser.add_argument('--hf_username', type=str, default="haining",
+                        help="Your Hugging Face username.")
 
     args = parser.parse_args()
 
