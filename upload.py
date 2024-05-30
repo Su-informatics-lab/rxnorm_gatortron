@@ -2,15 +2,24 @@ import argparse
 import os
 import shutil
 from huggingface_hub import HfApi, Repository
+from huggingface_hub.utils._errors import HfHubHTTPError
 
 
 def upload_model_to_hf(username, repo_name, ckpt_dir):
-    # create a new repository on Hugging Face Hub
+    # create a new repository on Hugging Face Hub if it doesn't exist
     api = HfApi()
-    api.create_repo(repo_id=f"{username}/{repo_name}", private=False)
+    repo_id = f"{username}/{repo_name}"
 
-    repo = Repository(local_dir=f"./{repo_name}",
-                      clone_from=f"{username}/{repo_name}")
+    try:
+        api.create_repo(repo_id=repo_id, private=False)
+        print(f"Repository {repo_id} created successfully.")
+    except HfHubHTTPError as e:
+        if e.response.status_code == 409:
+            print(f"Repository {repo_id} already exists.")
+        else:
+            raise e
+
+    repo = Repository(local_dir=f"./{repo_name}", clone_from=repo_id)
 
     for file_name in os.listdir(ckpt_dir):
         full_file_name = os.path.join(ckpt_dir, file_name)
