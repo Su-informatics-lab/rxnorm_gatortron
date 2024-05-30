@@ -9,11 +9,9 @@ def upload_model_to_hf(username, repo_name, ckpt_dir):
     api = HfApi()
     api.create_repo(repo_id=f"{username}/{repo_name}", private=False)
 
-    # clone the repository
-    repo = Repository(local_dir=f"./{repo_name}",
+    repo = Repository(local_dir=f"./{repo_name}_hf_repo",
                       clone_from=f"{username}/{repo_name}")
 
-    # copy your model files to the repository directory
     for file_name in os.listdir(ckpt_dir):
         full_file_name = os.path.join(ckpt_dir, file_name)
         if os.path.isfile(full_file_name):
