@@ -9,13 +9,13 @@ torchrun --nproc_per_node=4 --nnodes=1 \
   --model_name_or_path UFNLP/gatortron-base \
   --train_file rxnorm.txt \
   --validation_split_percentage 5 \
-  --output_dir ./ckpts \
+  --output_dir gatortron_base_rxnorm_babbage \
   --overwrite_output_dir \
   --per_device_train_batch_size 16 \
   --per_device_eval_batch_size 16 \
-  --num_train_epochs 100 \
+  --num_train_epochs 20 \
   --save_steps 100 \
-  --save_total_limit 5 \
+  --save_total_limit 3 \
   --do_train \
   --do_eval \
   --logging_dir ./logs \
