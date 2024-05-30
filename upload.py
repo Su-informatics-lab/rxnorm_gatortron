@@ -1,9 +1,9 @@
 import argparse
 import os
 import shutil
+import tempfile
 from huggingface_hub import HfApi, Repository
 from huggingface_hub.utils._errors import HfHubHTTPError
-
 
 def upload_model_to_hf(username, repo_name, ckpt_dir):
     # create a new repository on Hugging Face Hub if it doesn't exist
@@ -19,18 +19,19 @@ def upload_model_to_hf(username, repo_name, ckpt_dir):
         else:
             raise e
 
-    repo = Repository(local_dir=f"./{repo_name}", clone_from=repo_id)
+    # Create a temporary directory for cloning the repository
+    with tempfile.TemporaryDirectory() as temp_dir:
+        repo = Repository(local_dir=temp_dir, clone_from=repo_id)
 
-    for file_name in os.listdir(ckpt_dir):
-        full_file_name = os.path.join(ckpt_dir, file_name)
-        if os.path.isfile(full_file_name):
-            shutil.copy(full_file_name, repo.local_dir)
+        for file_name in os.listdir(ckpt_dir):
+            full_file_name = os.path.join(ckpt_dir, file_name)
+            if os.path.isfile(full_file_name):
+                shutil.copy(full_file_name, repo.local_dir)
 
-    # push the files to the repository
-    repo.push_to_hub()
+        # push the files to the repository
+        repo.push_to_hub()
 
-    print(f"Model {repo_name} has been successfully uploaded to Hugging Face Hub.")
-
+        print(f"Model {repo_name} has been successfully uploaded to Hugging Face Hub.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
