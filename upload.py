@@ -9,7 +9,7 @@ def upload_model_to_hf(username, repo_name, ckpt_dir):
     api = HfApi()
     api.create_repo(repo_id=f"{username}/{repo_name}", private=False)
 
-    repo = Repository(local_dir=f"./{repo_name}_hf_repo",
+    repo = Repository(local_dir=f"./{repo_name}",
                       clone_from=f"{username}/{repo_name}")
 
     for file_name in os.listdir(ckpt_dir):
